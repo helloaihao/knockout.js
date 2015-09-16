@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>clickCounter</title>
+</head>
+<body>
+	<div>你点击了 <span data-bind='text: numberOfClicks'>&nbsp;</span> 次</div>
+
+	<button data-bind='click: registerClick, disable: hasClickedTooManyTimes'>点我</button>
+
+	<div data-bind='visible: hasClickedTooManyTimes'>
+		点击次数过多！请重置！
+		<button data-bind='click: resetClicks'>重置次数</button>
+	</div>
+	<script src="knockout.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		var ClickCounterViewModel = function() {
+			this.numberOfClicks = ko.observable(0);
+
+			this.registerClick = function() {
+				this.numberOfClicks(this.numberOfClicks() + 1);
+			};
+
+			this.resetClicks = function() {
+				this.numberOfClicks(0);
+			};
+
+			this.hasClickedTooManyTimes = ko.pureComputed(function() {
+				return this.numberOfClicks() >= 3;
+			}, this);
+		};
+
+		ko.applyBindings(ClickCounterViewModel);
+	</script>
+</body>
+</html>

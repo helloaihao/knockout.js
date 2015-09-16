@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>hello world</title>
+</head>
+<body>
+	<p>First name: <input data-bind="value: firstName" /></p>
+	<p>Last name: <input data-bind="value: lastName" /></p>
+	<h2>Hello, <span data-bind="text: fullName"> </span>!</h2>
+
+	<script src="knockout.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+	var ViewModel = function() {
+		this.firstName = ko.observable("ai");				//observable用于监视相关变量
+		this.lastName = ko.observable("hao");
+
+		this.fullName = ko.pureComputed(function() {		//pureComputed依赖监控属性，当监控属性改变时执行相关函数
+        	return this.firstName() + " " + this.lastName();
+    	}, this);
+	};
+
+	ko.applyBindings(ViewModel);							//applyBingdings激活绑定
+</script>
+</body>
+</html>
