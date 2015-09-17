@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<form data-bind="submit: addItem">
+    新的项：
+    <input data-bind='value: itemToAdd, valueUpdate: "afterkeydown"' />
+    <button type="submit" data-bind="enable: itemToAdd().length > 0">添加</button>
+    <p>你的项目：</p>
+    <select multiple="multiple" width="50" data-bind="options: items"> </select>
+</form>
+	<script src="knockout.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		var SimpleListModel = function(items) {
+			this.items = ko.observableArray(items);		//绑定数组
+			this.itemToAdd = ko.observable("");
+			this.addItem = function() {
+				if (this.itemToAdd() != "") {
+					this.items.push(this.itemToAdd()); 
+					this.itemToAdd("");
+				}
+			};
+		};
+
+		ko.applyBindings(new SimpleListModel(["张三", "李四", "王五"]));
+	</script>
+</body>
+</html>
