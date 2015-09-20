@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Demo</title>
+</head>
+<body>
+	<h2>人</h2>
+	<ul data-bind="foreach: people">
+		<li>
+			<div>
+				<span data-bind="text: name"></span> 有 <span data-bind="text: children().length"></span> 小孩：
+				<a href="javascript:void(0);" data-bind="click: addChild">添加小孩</a>
+				<span data-bind="visible: $root.showRenderTimes">
+					<!-- $root 为根节点，不加则默认调用 people 中属性 -->
+					秒数为<span data-bind="text: new Date().getSeconds()"></span>时创建
+				</span>
+			</div>
+			<ul data-bind="foreach: children">
+				<li>
+					<span data-bind="text: $data"></span>
+					<!-- $data 为 foreach 中的数据 -->
+					<sapn data-bind="visible: $root.showRenderTimes">秒数为<span data-bind="text: new Date().getSeconds()"></span>时创建</sapn>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<label><input type="checkbox" data-bind="checked: showRenderTimes">显示创建时间</label>
+
+	<script src="knockout.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	var Person = function(name, children) {
+		this.name = name;
+		this.children = ko.observableArray(children);
+		this.addChild = function() {
+			this.children.push("小王");
+		};
+	}
+
+	var viewModel = {
+		people:[
+			new Person("老张", ["张一", "张二", "张三"]),
+			new Person("老李", ["李一", "李二", "李三"]),
+			new Person("老王", ["王一", "王二", "王三"])
+			],
+		showRenderTimes: ko.observable(false)
+	};
+
+	ko.applyBindings(viewModel);
+	</script>
+</body>
+</html>
